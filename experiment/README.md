@@ -51,9 +51,30 @@ honest witnesses gone, each cheater accumulates bad reports too slowly
 to cross the -3 warning threshold inside 5 rounds. The system fails
 open: absence of evidence reads as good standing.
 
-Takeaway for real reputation systems: a threshold-based detector can be
-defeated without any ratings fraud at all, simply by thinning the
-population of honest reporters.
+## Testing the mechanism
+
+If dilution is the mechanism, it makes a prediction: more rounds should
+restore detection, because the observer just needs more evidence per
+cheater. It does, cleanly:
+
+| malicious_fraction 0.5, rounds -> | 5   | 10  | 15  | 25  |
+|-----------------------------------|-----|-----|-----|-----|
+| cheaters caught                   | 30% | 70% | 80% | 90% |
+| honest falsely flagged            | 0   | 0   | 0   | 0   |
+
+And a dose-response sweep at 5 rounds shows the collapse is smooth, not
+a cliff: 75% caught at fraction 0.2, 67% at 0.3, 50% at 0.4, 30% at
+0.5, 7% at 0.7. False positives are zero in every run.
+
+## Takeaway
+
+A majority of cheaters does not corrupt averaged reputation here; it
+slows it. The scoring never falsely convicts, it just needs more
+evidence per cheater than a short game provides. The threshold detector
+fails open on time, not on truth. For real reputation systems the
+lesson is that the honest-reporter supply sets the detection latency,
+and any system evaluated over a short window can be defeated by
+population thinning alone, with zero ratings fraud.
 
 ## Reproduce
 
@@ -69,6 +90,6 @@ uv run nest inspect traces/rep_majority.jsonl
 
 Built working alongside Claude Code (Claude Fable 5) throughout:
 environment setup, reading the scenario source to chase Surprise 1,
-trace analysis scripts, and drafting this README. The choice of
+trace analysis and sweep scripts, and drafting this README. The choice of
 experiment, the hypothesis, and the final read of the results are mine;
 I ran the scenarios and inspected the traces myself. No other human help.
