@@ -47,8 +47,8 @@ warning threshold.
 I expected honest agents to get smeared. False positives stayed at zero,
 because these malicious agents cheat on trades but never file false
 reports (confirmed in `MaliciousAgent`: it under-delivers, it does not
-slander). The real mechanism is **evidence dilution**: with half the
-honest witnesses gone, each cheater accumulates bad reports too slowly
+slander). The real mechanism is **evidence dilution**: with fewer
+honest witnesses, each cheater accumulates bad reports too slowly
 to cross the -3 warning threshold inside 5 rounds. The system fails
 open: absence of evidence reads as good standing.
 
