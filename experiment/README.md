@@ -1,4 +1,4 @@
-# Does averaged reputation survive a majority of cheaters?
+# Does averaged reputation survive when half the traders cheat?
 
 Tripti Khetan (Harvard HGSE, LDIT) — MIT AI Studio Fall 2026, Step 2
 
@@ -11,7 +11,7 @@ score hits -3. The trust layer is `score_average`.
 
 I changed one setting in `task.config`: `malicious_fraction: 0.2 -> 0.5`.
 
-**Hypothesis (written before running):** when half the town is malicious,
+**Hypothesis (written before running):** when half the traders are malicious,
 averaged reputation stops separating honest from malicious. I expected
 detection of cheaters to collapse, and possibly honest agents to be
 falsely flagged.
@@ -35,11 +35,12 @@ governs, keeping agents=21, seed=42, and everything else identical.
 |-----------------------|---------------------------|----------------------------|
 | cheaters flagged      | 3 of 4 (75%)              | 3 of 10 (30%)              |
 | honest falsely flagged| 0                         | 0                          |
-| reports filed         | 620 messages              | 250 messages               |
+| messages sent         | 280                       | 250                        |
 | about malicious       | good 8 / bad 10           | good 10 / bad 14           |
 
-Detection collapsed from 75% to 30%: seven of ten cheaters finished the
-run with clean reputations.
+Detection collapsed from 75% to 30%: seven of ten cheaters were never
+flagged. Several still carried negative scores, but none crossed the -3
+warning threshold.
 
 ## Surprise 2: the mechanism was not the one I predicted
 
@@ -68,7 +69,8 @@ a cliff: 75% caught at fraction 0.2, 67% at 0.3, 50% at 0.4, 30% at
 
 ## Takeaway
 
-A majority of cheaters does not corrupt averaged reputation here; it
+Raising the cheater share to half the traders does not corrupt averaged
+reputation here; it
 slows it. The scoring never falsely convicts, it just needs more
 evidence per cheater than a short game provides. The threshold detector
 fails open on time, not on truth. For real reputation systems the
